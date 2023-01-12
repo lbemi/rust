@@ -1,6 +1,10 @@
 use List::{Cons, Nil};
 use std::ops::Deref;
 fn main() {
+    // b 存储在heap上
+    let b = Box::new(7);
+    println!("{}",b);
+
     let b = Box::new(4);
     println!(" b= {}",b);
 
@@ -20,9 +24,12 @@ fn main() {
     assert_eq!(5,*y);
 }
 #[derive(Debug)]
-enum List  {
+enum List  {   
+    // 在编译时,Rust需要回到一个类型所占的空间大小;
+    // 而递归类型的大小无法在编译时确定,单是Box类型的大小确定,
+    // 所有在递归类型中是Box酒客解决上述问题; Box是一个指针间接的指向heap上存储的list
     Cons(i32,Box<List>),
-    Nil, 
+    Nil, // 终止标记
 }
 
 struct MyBox<T>(T);
